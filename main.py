@@ -9,8 +9,8 @@ locked line. Deterministic: the same bytes on every run.
 import os
 
 ADVICE = (
-    "My grandmother told me to marry the man who does the dishes without "
-    "being asked, and forty years later I still test every roommate that way."
+    "My driving instructor told me in a snowstorm to look where I wanted "
+    "the car to go instead of staring at the ditch I was trying to miss."
 )
 
 MIN_CHARS = 1
@@ -39,6 +39,8 @@ def verify_entry():
     with open(target, "rb") as handle:
         raw = handle.read()
     text = raw.decode("utf-8")
+    if len(raw) != len(ADVICE.encode("utf-8")):
+        raise SystemExit("gate: entry byte length changed")
     if text != ADVICE:
         raise SystemExit("entry.txt does not match the locked line")
     if not MIN_CHARS <= len(text) <= MAX_CHARS:
